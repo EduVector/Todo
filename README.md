@@ -1,4 +1,4 @@
-# Online Shop
+# Todo
 
 ### 1. How to install (Windows / Linux / Mac)
 
