@@ -1,6 +1,14 @@
 from django.urls import path
 from .views import TodoCreateView, TodoListView, TodoDetailView, TodoUpdateView, TodoDeleteView, \
-                TodoRUDView, TodoListCreateView
+                TodoRUDView, TodoListCreateView, TodoListAPIView, TodoCRUDView
+
+from rest_framework.routers import DefaultRouter
+
+
+router = DefaultRouter()
+
+router.register('crud', TodoCRUDView, basename="todo-crud")
+
 
 
 urlpatterns = [
@@ -13,4 +21,7 @@ urlpatterns = [
 
     path('TodoRUD/<int:pk>/', TodoRUDView.as_view()),
     path('Todo/', TodoListCreateView.as_view()),
-]
+
+    # views
+    path('todo-list/', TodoListAPIView.as_view())
+] + router.urls
