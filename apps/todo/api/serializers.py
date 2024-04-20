@@ -12,9 +12,11 @@ class TodoCreateSerializer(serializers.ModelSerializer):
             'status',
             'notes',
             'created_at',
+            'user'
         ]
         extra_kwargs = {
-            'created_at': {'read_only': True}
+            'created_at': {'read_only': True},
+            'user': {'read_only': True}
         }
 
 

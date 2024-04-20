@@ -1,4 +1,4 @@
-from rest_framework import generics, views, viewsets, status
+from rest_framework import generics, views, viewsets, status, permissions
 from rest_framework.response import Response
 from .serializers import TodoCreateSerializer, TodoListSerializer, TodoUpdateSerializer
 from apps.todo.models import Todo
@@ -9,17 +9,23 @@ class TodoCreateView(generics.CreateAPIView):
     queryset = Todo.objects.all()
     serializer_class = TodoCreateSerializer
 
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
 
 class TodoListView(generics.ListAPIView):
     queryset = Todo.objects.all()
     serializer_class = TodoListSerializer
-
+    
+    def get_queryset(self):
+        return self.queryset.filter(user=self.request.user).order_by('-id')
 
 
 class TodoDetailView(generics.RetrieveAPIView):
     queryset = Todo.objects.all()
     serializer_class = TodoListSerializer
     lookup_field = 'pk'
+    permission_classes = (permissions.AllowAny)
 
 
 class TodoUpdateView(generics.UpdateAPIView):

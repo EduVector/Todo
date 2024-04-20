@@ -1,4 +1,5 @@
 from django.db import models
+from apps.users.models import Account
 
 STATUS = (
     (0, "Low"),
@@ -13,6 +14,7 @@ class Todo(models.Model):
     notes = models.TextField(null=True, blank=True)
     is_done = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(Account, on_delete=models.CASCADE, null=True, blank=True, related_name="user_todoes")
 
     def __str__(self) -> str:
         return self.title
