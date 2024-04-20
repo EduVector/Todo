@@ -1,6 +1,6 @@
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
-from .serializers import RegisterSerializer, UserListSerializer
+from .serializers import RegisterSerializer, UserListSerializer, LoginSerializer
 from apps.users.models import Account
 
 
@@ -21,3 +21,14 @@ class UserListView(generics.ListAPIView):
     queryset = Account.objects.all()
     serializer_class = UserListSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+
+class LoginAPIView(generics.GenericAPIView):
+    serializer_class = LoginSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+    def post(self, request):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            return Response(serializer.data)
